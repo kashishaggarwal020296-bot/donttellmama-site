@@ -678,17 +678,17 @@
         </div>
       </div>
 
-      <!-- Structured enquiry → existing Google Forms → Sheets → Apps Script CRM.
-           Backend: apps-script/CommonsEnquiries.gs (addendum §H) routes each
-           submission into a dedicated "Event Enquiries" tab, fires an instant
-           alert to the events contact, and stamps an Outreach Status column.
-           At build: replace FORM_ID + entry.* IDs with the live form's values,
-           and keep the Google Form question titles matching FIELD_MAP
-           (Event type / Venue / Contact name / Phone / Date / Time / Headcount). -->
-      <form class="enq-form" id="commonsForm" action="https://docs.google.com/forms/d/e/FORM_ID/formResponse" method="POST" target="hidden_iframe">
+      <!-- Structured enquiry → Apps Script Web App → Guest Master CRM sheet.
+           Backend: apps-script/CommonsEnquiries.gs, deployed as a Web App and
+           called directly via fetch() below (CONFIG.COMMONS_FORM_ENDPOINT).
+           It appends to a dedicated "Event Enquiries" tab with an Outreach
+           Status column and emails an instant alert. The page only shows a
+           success message after the endpoint returns a real {ok:true} —
+           never before, and never just because a request was sent. -->
+      <form class="enq-form" id="commonsForm">
         <div class="field">
           <label for="f-type">Event type</label>
-          <select id="f-type" name="entry.EVENT_TYPE" required="">
+          <select id="f-type" name="eventType" required="">
             <option value="" disabled="" selected="">Select one</option>
             <option>Corporate Offsite</option>
             <option>Private Party</option>
@@ -698,7 +698,7 @@
         </div>
         <div class="field">
           <label for="f-venue">Venue</label>
-          <select id="f-venue" name="entry.VENUE" required="">
+          <select id="f-venue" name="venue" required="">
             <option value="The Commons (up to 100 guests)" selected="">The Commons — up to 100 guests · Recommended</option>
             <option value="Rooftop Buyout">Rooftop Buyout — for larger celebrations</option>
           </select>
@@ -707,21 +707,21 @@
         <div class="field two">
           <div>
             <label for="f-name">Contact name</label>
-            <input id="f-name" name="entry.NAME" type="text" placeholder="Your name" required="">
+            <input id="f-name" name="name" type="text" placeholder="Your name" required="">
           </div>
           <div>
             <label for="f-phone">Phone</label>
-            <input id="f-phone" name="entry.PHONE" type="tel" placeholder="+91" required="">
+            <input id="f-phone" name="phone" type="tel" placeholder="+91" required="">
           </div>
         </div>
         <div class="field two">
           <div>
             <label for="f-date">Date</label>
-            <input id="f-date" name="entry.DATE" type="date" required="">
+            <input id="f-date" name="date" type="date" required="">
           </div>
           <div>
             <label for="f-time">Time</label>
-            <select id="f-time" name="entry.TIME" required="">
+            <select id="f-time" name="time" required="">
               <option value="" disabled="" selected="">Select</option>
               <option>Afternoon (12–4 PM)</option>
               <option>Early evening (5–7 PM)</option>
@@ -732,14 +732,13 @@
         </div>
         <div class="field">
           <label for="f-size">Headcount</label>
-          <input id="f-size" name="entry.HEADCOUNT" type="number" min="1" max="150" placeholder="Approx. number of guests" required="">
+          <input id="f-size" name="headcount" type="number" min="1" max="150" placeholder="Approx. number of guests" required="">
         </div>
         <div class="hp" aria-hidden="true"><label>Company website<input type="text" id="hp-field" name="company_website" tabindex="-1" autocomplete="off"></label></div>
         <p class="consent">By submitting, you agree that Don't Tell Mama may contact you by phone or WhatsApp regarding this enquiry.</p>
         <button class="btn-submit" type="submit" id="commonsSubmit">Send Enquiry <span>→</span></button>
         <p class="form-note" id="formNote">We'll confirm availability personally — usually within a few hours. Your details go straight to Mama's team, nowhere else.</p>
       </form>
-      <iframe name="hidden_iframe" id="hidden_iframe" style="display:none" title="form target"></iframe>
     </div>
   </div>
 </section>
@@ -790,7 +789,12 @@
     THURSDAY_LIVE: false,
     COMMONS_PASS_MODE: "waitlist",
     ESTABLISHED_YEAR: 2010,
-    GA4_ID: "G-7BYJ7PRKPM"
+    GA4_ID: "G-7BYJ7PRKPM",
+    /* Apps Script Web App /exec URL — deploy apps-script/CommonsEnquiries.gs
+       against the Guest Master CRM sheet and paste its URL here. Left blank,
+       the form always reports failure (with the WhatsApp fallback) rather
+       than lying about a submission it never made. */
+    COMMONS_FORM_ENDPOINT: "https://script.google.com/macros/s/AKfycbwFYaaJABLWoDvgJ5R5v1XFCwULcPfM4ua0B1FJx80zhy6xdTxmLZcHGVSqv0tHrFeVkg/exec"
   };
   if(CONFIG.GA4_ID && !/X{4,}/.test(CONFIG.GA4_ID)){
     var _ga=document.createElement("script"); _ga.async=true;
@@ -877,8 +881,9 @@
 
   /* ============================================================
      ENQUIRY FORM — validation, honeypot, loading/success/failure.
-     Submits into the hidden iframe (Google Forms). Replace FORM_ID
-     + entry.* field names with the live form's values at build.
+     Posts directly to the Apps Script Web App (CONFIG.COMMONS_FORM_ENDPOINT).
+     Success is only ever shown after a real {ok:true} JSON response —
+     network errors, non-200s, and {ok:false} all fall through to fail().
      ============================================================ */
   var form = document.getElementById("commonsForm"), note = document.getElementById("formNote"),
       submitBtn = document.getElementById("commonsSubmit"), hp = document.getElementById("hp-field");
@@ -924,21 +929,44 @@
         note.textContent = "Please check the highlighted fields — we need a valid Indian phone number and a future date.";
         return;
       }
+      if(!CONFIG.COMMONS_FORM_ENDPOINT){ fail(); return; } /* no backend configured — never fake success */
+
       if(submitBtn){ submitBtn.disabled = true; submitBtn.innerHTML = "Sending…"; }
       note.className = "form-note"; note.textContent = "Sending your enquiry…";
-      var settled = false;
-      var frame = document.getElementById("hidden_iframe");
-      var done = function(){
-        if(settled) return; settled = true;
+
+      var payload = {
+        eventType: document.getElementById("f-type").value,
+        venue: document.getElementById("f-venue").value,
+        name: document.getElementById("f-name").value,
+        phone: document.getElementById("f-phone").value,
+        date: document.getElementById("f-date").value,
+        time: document.getElementById("f-time").value,
+        headcount: document.getElementById("f-size").value,
+        hp: hp ? hp.value : ""
+      };
+
+      var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+      var timeoutId = controller ? setTimeout(function(){ controller.abort(); }, 12000) : null;
+
+      fetch(CONFIG.COMMONS_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, /* avoids a CORS preflight the endpoint can't answer */
+        body: JSON.stringify(payload),
+        signal: controller ? controller.signal : undefined
+      }).then(function(res){
+        if(timeoutId) clearTimeout(timeoutId);
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      }).then(function(result){
+        if(!result || result.ok !== true) throw new Error((result && result.error) || "Submission rejected");
         track("commons_enquiry_submitted", {section:"commons-form"});
         form.reset(); if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = "Send Enquiry <span>→</span>"; }
         note.className = "form-note ok";
         note.innerHTML = "<b>Mama has your enquiry.</b> Our team will contact you shortly.";
-      };
-      if(frame){ frame.addEventListener("load", done, {once:true}); }
-      try{ form.submit(); }catch(err){ fail(); return; }
-      /* Fallback: if the iframe never signals back, still confirm optimistically */
-      setTimeout(done, 2500);
+      }).catch(function(){
+        if(timeoutId) clearTimeout(timeoutId);
+        fail();
+      });
     });
   }
 })();
