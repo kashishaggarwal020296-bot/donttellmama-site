@@ -436,10 +436,25 @@
 
   /* ---- PHOTO STRIP ---- */
   .photos{padding:40px 0 20px;}
-  .photo-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:230px;gap:14px;}
+  .photo-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,190px);
+    grid-template-areas:
+      "feature feature a"
+      "feature feature b"
+      "c d e";
+    gap:14px;
+  }
   .photo-grid .p{position:relative;overflow:hidden;border-radius:4px;border:1px solid rgba(215,162,35,.12);background:var(--green-ink);}
-  .photo-grid .p.tall{grid-row:span 2;}
+  .photo-grid .p.feature{grid-area:feature;}
+  .photo-grid .p.a{grid-area:a;} .photo-grid .p.b{grid-area:b;}
+  .photo-grid .p.c{grid-area:c;} .photo-grid .p.d{grid-area:d;} .photo-grid .p.e{grid-area:e;}
   .photo-grid image-slot::part(image){filter:grayscale(.32) contrast(1.12) brightness(.72) saturate(.8);}
+  .photo-grid .p.feature .cap{position:absolute;left:14px;bottom:14px;z-index:2;font-family:var(--sans);
+    font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--cream);
+    background:rgba(9,29,26,.72);padding:7px 12px;border-radius:3px;border:1px solid rgba(215,162,35,.3);
+    pointer-events:none;}
 
   /* ---- SUITS / USE CASES ---- */
   .suits{padding:80px 0 30px;}
@@ -520,8 +535,15 @@
     .enq-left{border-right:none;border-bottom:1px solid rgba(215,162,35,.14);}
     .intro-grid{grid-template-columns:1fr;gap:34px;}
     .intro-photo{height:340px;}
-    .photo-grid{grid-template-columns:1fr 1fr;grid-auto-rows:200px;}
-    .photo-grid .p.tall{grid-row:auto;}
+    .photo-grid{
+      grid-template-columns:1fr 1fr;
+      grid-template-rows:220px 170px 170px 170px;
+      grid-template-areas:
+        "feature feature"
+        "a b"
+        "c d"
+        "e e";
+    }
     .suits-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto;}
   }
   @media (max-width:1000px){
@@ -600,10 +622,15 @@
 <section class="photos">
   <div class="wrap">
     <div class="photo-grid reveal">
-      <div class="p tall"><image-slot id="cg-1" src="/images/commons-gallery-1.jpg" alt="The Commons dressed for an evening event" placeholder="The room, dressed for the evening"></image-slot></div>
-      <div class="p"><image-slot id="cg-2" alt="Bar service inside The Commons" placeholder="The bar"></image-slot></div>
-      <div class="p"><image-slot id="cg-3" alt="A corporate offsite gathering in The Commons" placeholder="A corporate evening"></image-slot></div>
-      <div class="p"><image-slot id="cg-4" alt="A private celebration in The Commons" placeholder="A private celebration"></image-slot></div>
+      <div class="p feature">
+        <image-slot id="cg-feature" src="/images/commons-gallery-group.jpg" alt="A corporate team of about 35 people celebrating together in The Commons" placeholder="A corporate offsite, in full swing"></image-slot>
+        <span class="cap">A corporate offsite, in full swing</span>
+      </div>
+      <div class="p a"><image-slot id="cg-a" src="/images/commons-hero.jpg" alt="The Commons at Mama's — a moody private event room one floor below the rooftop" placeholder="The Commons — the room most people never see"></image-slot></div>
+      <div class="p b"><image-slot id="cg-b" src="/images/commons-room.jpg" alt="Inside The Commons at Mama's set up for a private event" placeholder="The Commons set for a private event"></image-slot></div>
+      <div class="p c"><image-slot id="cg-c" src="/images/commons-gallery-1.jpg" alt="The Commons dressed for an evening event, staircase and glass arches" placeholder="The room, dressed for the evening"></image-slot></div>
+      <div class="p d"><image-slot id="cg-d" src="/images/commons-gallery-bar.jpg" alt="Bar service inside The Commons, rows of arches under moody lighting" placeholder="The bar"></image-slot></div>
+      <div class="p e"><image-slot id="cg-e" alt="The backlit liquor shelf inside The Commons" placeholder="The bar shelf"></image-slot></div>
     </div>
   </div>
 </section>
