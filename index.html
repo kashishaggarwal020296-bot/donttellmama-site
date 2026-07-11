@@ -504,7 +504,7 @@
   .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;
     max-width:1300px;margin:0 auto;padding:20px 40px;transition:padding .4s ease;}
   header.scrolled .bar{padding:14px 40px;}
-  .wordmark{display:flex;align-items:center;gap:10px;line-height:1;}
+  .wordmark{position:relative;display:flex;align-items:center;gap:10px;line-height:1;}
   .wordmark img{height:59px;width:auto;display:block;transition:height .4s ease;}
   header.scrolled .wordmark img{height:49px;}
   .wordmark .script{font-family:var(--serif);font-style:italic;font-weight:500;font-size:26px;
@@ -533,7 +533,8 @@
   .hero-bg::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
     background:var(--green);mix-blend-mode:color;opacity:.32;}
   .hero-bg::after{z-index:2;content:"";position:absolute;inset:0;
-    background:linear-gradient(to top, rgba(9,29,26,.9) 2%, rgba(9,29,26,.34) 30%, rgba(9,29,26,.1) 60%, rgba(9,29,26,.3) 100%),
+    background:radial-gradient(32vw 32vh at 0% 0%, rgba(9,29,26,1) 0%, rgba(9,29,26,.97) 45%, rgba(9,29,26,.55) 72%, rgba(9,29,26,0) 100%),
+      linear-gradient(to top, rgba(9,29,26,.9) 2%, rgba(9,29,26,.34) 30%, rgba(9,29,26,.1) 60%, rgba(9,29,26,.3) 100%),
       radial-gradient(120% 90% at 50% 30%, transparent 50%, rgba(9,29,26,.35) 100%);}
   .hero-inner{position:relative;z-index:2;width:100%;max-width:1220px;margin:0 auto;padding:0 40px;}
   .hero h1{font-family:var(--serif);font-weight:600;color:var(--cream);
