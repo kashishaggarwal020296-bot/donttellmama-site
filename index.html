@@ -951,12 +951,7 @@
 <!-- ================= HERO ================= -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="/images/hero-poster-desktop.jpg">
-      <source media="(max-width:767px)" src="/videos/mobile-hero-loop.webm" type="video/webm">
-      <source media="(max-width:767px)" src="/videos/mobile-hero-loop.mp4" type="video/mp4">
-      <source src="/videos/desktop-hero-loop.webm" type="video/webm">
-      <source src="/videos/desktop-hero-loop.mp4" type="video/mp4">
-    </video>
+    <video id="hero-video" muted loop playsinline preload="auto" poster="/images/hero-poster-desktop.jpg"></video>
     <img id="hero-photo" class="hero-fallback-img" fetchpriority="high" decoding="async" src="/assets/d6ff2c1d-6ffa-44e6-8bcb-a8b707a8b512.jpg" alt="Don't Tell Mama rooftop with open sky, tables and the Bangalore skyline">
   </div>
   <div class="hero-inner">
@@ -1478,7 +1473,14 @@
   })();
 })();
 
-/* ============ HERO VIDEO — poster-per-breakpoint + graceful fallback to still image ============ */
+/* ============ HERO VIDEO — poster-per-breakpoint + graceful fallback to still image ============
+   Source selection is driven entirely from JS (video.src, not nested <source media>
+   elements) because Safari/WebKit's support for media-queried <source> inside <video>
+   is unreliable — it can silently fail to pick any candidate, leaving the video in a
+   blank, un-played state with no error event ever firing. Setting .src directly avoids
+   that failure mode on every browser. A hard timeout is the final safety net: if the
+   video hasn't actually started playing a few seconds in, for any reason, we show the
+   still photo instead of leaving a blank hero. */
 (function(){
   var v = document.getElementById("hero-video");
   var img = document.getElementById("hero-photo");
@@ -1487,13 +1489,26 @@
     v.remove();
     return;
   }
-  v.poster = window.matchMedia("(max-width:767px)").matches
-    ? "/images/hero-poster-mobile.jpg"
-    : "/images/hero-poster-desktop.jpg";
-  function fallbackToImage(){ v.style.display = "none"; img.style.display = "block"; }
+  var isMobile = window.matchMedia("(max-width:767px)").matches;
+  var base = isMobile ? "/videos/mobile-hero-loop" : "/videos/desktop-hero-loop";
+  v.poster = isMobile ? "/images/hero-poster-mobile.jpg" : "/images/hero-poster-desktop.jpg";
+
+  var started = false;
+  function fallbackToImage(){
+    if(started) return;
+    v.style.display = "none";
+    img.style.display = "block";
+  }
+  v.addEventListener("playing", function(){ started = true; });
   v.addEventListener("error", fallbackToImage);
+
+  var canWebm = !!(v.canPlayType && v.canPlayType('video/webm; codecs="vp9"'));
+  v.src = base + (canWebm ? ".webm" : ".mp4");
+  v.load();
   var playPromise = v.play();
   if(playPromise !== undefined){ playPromise.catch(fallbackToImage); }
+
+  setTimeout(fallbackToImage, 4000);
 })();
 </script>
 
