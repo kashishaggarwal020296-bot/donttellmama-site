@@ -527,8 +527,9 @@
   /* ---------------- HERO ---------------- */
   .hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:9vh;overflow:hidden;}
   .hero-bg{position:absolute;inset:0;z-index:0;}
-  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 42%;
+  .hero-bg img,.hero-bg video{width:100%;height:100%;object-fit:cover;object-position:center 42%;
     filter:grayscale(.28) contrast(1.12) brightness(.86) saturate(.88);}
+  .hero-bg img.hero-fallback-img{display:none;}
   .hero-bg::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
     background:var(--green);mix-blend-mode:color;opacity:.32;}
   .hero-bg::after{z-index:2;content:"";position:absolute;inset:0;
@@ -850,15 +851,15 @@
   @media (max-width:1000px){
     /* mobile nav: hamburger reveals visible links; Reserve stays pinned in bar */
     .nav-wrap{position:static;}
-    nav.main{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;
-      background:rgba(9,29,26,.98);backdrop-filter:blur(14px);border-bottom:1px solid rgba(215,162,35,.2);}
+    nav.main{display:none;position:absolute;top:100%;left:0;right:0;min-height:100vh;flex-direction:column;gap:0;
+      background:rgba(9,29,26,.98);backdrop-filter:blur(14px);border-bottom:1px solid rgba(215,162,35,.2);overflow-y:auto;}
     nav.main.open{display:flex;}
-    nav.main a{padding:16px 24px;width:100%;border-top:1px solid rgba(215,162,35,.1);opacity:1;}
-    .menu-toggle{display:block;order:-1;}
+    nav.main a{padding:18px 24px;width:100%;border-top:1px solid rgba(215,162,35,.1);opacity:1;min-height:44px;box-sizing:border-box;display:flex;align-items:center;}
+    .menu-toggle{display:flex;align-items:center;justify-content:center;order:-1;position:relative;z-index:2;min-width:44px;min-height:44px;}
     .bar{padding:15px 20px;gap:12px;}
     .wordmark .script{font-size:21px;}
     .wordmark .block{font-size:12px;letter-spacing:.24em;padding:4px 8px 3px;}
-    .btn-reserve{font-size:11px;padding:9px 14px;letter-spacing:.12em;}
+    .btn-reserve{font-size:11px;padding:12px 14px;letter-spacing:.12em;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;}
     .find-grid{grid-template-columns:1fr;gap:34px;}
     .gal-grid{grid-template-columns:1fr;grid-auto-flow:column;grid-auto-columns:78%;grid-template-rows:220px;grid-auto-rows:220px;
       overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:8px;}
@@ -949,7 +950,13 @@
 <!-- ================= HERO ================= -->
 <section class="hero" id="top">
   <div class="hero-bg">
-    <img id="hero-photo" fetchpriority="high" decoding="async" src="/assets/d6ff2c1d-6ffa-44e6-8bcb-a8b707a8b512.jpg" alt="Don't Tell Mama rooftop with open sky, tables and the Bangalore skyline">
+    <video id="hero-video" autoplay muted loop playsinline preload="auto" poster="/images/hero-poster-desktop.jpg">
+      <source media="(max-width:767px)" src="/videos/mobile-hero-loop.webm" type="video/webm">
+      <source media="(max-width:767px)" src="/videos/mobile-hero-loop.mp4" type="video/mp4">
+      <source src="/videos/desktop-hero-loop.webm" type="video/webm">
+      <source src="/videos/desktop-hero-loop.mp4" type="video/mp4">
+    </video>
+    <img id="hero-photo" class="hero-fallback-img" fetchpriority="high" decoding="async" src="/assets/d6ff2c1d-6ffa-44e6-8bcb-a8b707a8b512.jpg" alt="Don't Tell Mama rooftop with open sky, tables and the Bangalore skyline">
   </div>
   <div class="hero-inner">
     <h1 class="reveal in">Some things are better<br><span class="l2">kept <span class="gold">between us.</span></span></h1>
@@ -1000,7 +1007,7 @@
 
       <!-- FRIDAY (row hero) -->
       <article class="card hero-card reveal" id="card-fri">
-        <div class="ph"><img id="fri-photo" loading="lazy" decoding="async" src="/images/friday-live-music.png" alt="A musician playing acoustic guitar and singing on the Don't Tell Mama rooftop at night, string lights overhead and the city skyline behind him"></div>
+        <div class="ph"><img id="fri-photo" loading="lazy" decoding="async" src="/images/friday-live-music.webp" alt="A musician playing acoustic guitar and singing on the Don't Tell Mama rooftop at night, string lights overhead and the city skyline behind him"></div>
         <div class="body">
           <div class="day">Friday</div>
           <div class="name">Friday at Mama's</div>
@@ -1013,7 +1020,7 @@
 
       <!-- WEDNESDAY -->
       <article class="card reveal" id="card-wed">
-        <div class="ph"><img id="wed-photo" loading="lazy" decoding="async" src="/images/wednesday-social-club.png" alt="A group of women laughing and toasting cocktails together at a rooftop table at dusk, city skyline in the background"></div>
+        <div class="ph"><img id="wed-photo" loading="lazy" decoding="async" src="/images/wednesday-social-club.webp" alt="A group of women laughing and toasting cocktails together at a rooftop table at dusk, city skyline in the background"></div>
         <div class="body">
           <div class="day">Wednesday</div>
           <div class="name">Mama's Social Club</div>
@@ -1027,7 +1034,7 @@
       <!-- THURSDAY (coming soon ribbon) -->
       <article class="card reveal" id="card-thu">
         <span class="ribbon" data-thu-ribbon="">From July 16</span>
-        <div class="ph"><img id="thu-photo" loading="lazy" decoding="async" src="/images/thursday-after-office.png" alt="Friends gathered around a table with drinks and small plates, a laptop resting nearby as the workday winds down"></div>
+        <div class="ph"><img id="thu-photo" loading="lazy" decoding="async" src="/images/thursday-after-office.webp" alt="Friends gathered around a table with drinks and small plates, a laptop resting nearby as the workday winds down"></div>
         <div class="body">
           <div class="day">Thursday</div>
           <div class="name">Mama's After Office</div>
@@ -1040,7 +1047,7 @@
 
       <!-- SATURDAY -->
       <article class="card reveal" id="card-sat">
-        <div class="ph"><img id="sat-photo" loading="lazy" decoding="async" src="/images/saturday-at-mamas.png" alt="A large group of friends raising a toast at a marble table with a birthday cake, the illuminated bar arches glowing behind them"></div>
+        <div class="ph"><img id="sat-photo" loading="lazy" decoding="async" src="/images/saturday-at-mamas.webp" alt="A large group of friends raising a toast at a marble table with a birthday cake, the illuminated bar arches glowing behind them"></div>
         <div class="body">
           <div class="day">Saturday</div>
           <div class="name">Saturday at Mama's</div>
@@ -1053,7 +1060,7 @@
 
       <!-- SUNDAY (daylight register) -->
       <article class="card sunday reveal" id="card-sun">
-        <div class="ph"><img id="sun-photo" loading="lazy" decoding="async" src="/images/sunday-slowly.png" alt="Friends sharing wine and a spread of tapas-style dishes at a rooftop table during golden hour sunset"></div>
+        <div class="ph"><img id="sun-photo" loading="lazy" decoding="async" src="/images/sunday-slowly.webp" alt="Friends sharing wine and a spread of tapas-style dishes at a rooftop table during golden hour sunset"></div>
         <div class="body">
           <div class="day">Sunday</div>
           <div class="name">Sundays, Slowly</div>
@@ -1086,7 +1093,7 @@
     </div>
     <div class="orig-grid reveal">
       <article class="orig">
-        <div class="shot"><img id="orig-liit" loading="lazy" decoding="async" src="/assets/f1752a82-d4ba-4fdc-9981-36d10a7f5da6.jpg" alt="The Green Island LIIT — the house long island, served green over ice with lime in the Don't Tell Mama cup"></div>
+        <div class="shot"><img id="orig-liit" loading="lazy" decoding="async" src="/images/cocktail-green-island-liit.webp" alt="The Green Island LIIT — the house long island, served green over ice with lime in the Don't Tell Mama cup"></div>
         <div class="body2">
           <div class="no">No. 01</div>
           <div class="nm">Green Island LIIT</div>
@@ -1094,7 +1101,7 @@
         </div>
       </article>
       <article class="orig">
-        <div class="shot"><img id="orig-smoke" loading="lazy" decoding="async" src="/assets/2219cb0d-7448-4716-8b17-05bb3f596930.jpg" alt="Mama's Smoke Signal — a smoked cocktail finished under a lifted veil of smoke, served on a wooden board"></div>
+        <div class="shot"><img id="orig-smoke" loading="lazy" decoding="async" src="/images/cocktail-smoke-signal.webp" alt="Mama's Smoke Signal — a smoked cocktail finished under a lifted veil of smoke, served on a wooden board"></div>
         <div class="body2">
           <div class="no">No. 02</div>
           <div class="nm">Mama's Smoke Signal</div>
@@ -1102,7 +1109,7 @@
         </div>
       </article>
       <article class="orig">
-        <div class="shot"><img id="orig-redlipstick" loading="lazy" decoding="async" src="/assets/78241b83-b139-4619-b3ce-dffccebf2525.jpg" alt="Mama's Red Lipstick — a dangerously red mezcal cocktail with a rose-pink foam cap and a dried citrus wheel, in a coupe on the rooftop"></div>
+        <div class="shot"><img id="orig-redlipstick" loading="lazy" decoding="async" src="/images/cocktail-red-lipstick.webp" alt="Mama's Red Lipstick — a dangerously red mezcal cocktail with a rose-pink foam cap and a dried citrus wheel, in a coupe on the rooftop"></div>
         <div class="body2">
           <div class="no">No. 03</div>
           <div class="nm">Mama's Red Lipstick</div>
@@ -1468,6 +1475,24 @@
     var cue = document.getElementById("galSwipe");
     if(cue){ grid.addEventListener("scroll", function(){ cue.style.opacity = "0"; }, {passive:true, once:true}); }
   })();
+})();
+
+/* ============ HERO VIDEO — poster-per-breakpoint + graceful fallback to still image ============ */
+(function(){
+  var v = document.getElementById("hero-video");
+  var img = document.getElementById("hero-photo");
+  if(!v || !img) return;
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    v.remove();
+    return;
+  }
+  v.poster = window.matchMedia("(max-width:767px)").matches
+    ? "/images/hero-poster-mobile.jpg"
+    : "/images/hero-poster-desktop.jpg";
+  function fallbackToImage(){ v.style.display = "none"; img.style.display = "block"; }
+  v.addEventListener("error", fallbackToImage);
+  var playPromise = v.play();
+  if(playPromise !== undefined){ playPromise.catch(fallbackToImage); }
 })();
 </script>
 
