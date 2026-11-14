@@ -306,6 +306,15 @@ def main():
             f.write(page)
         print("wrote", out_path)
 
+    # Remove stale pages for posts whose source .md was deleted or renamed,
+    # so removing a post actually removes it instead of leaving it live.
+    current_files = {f"{post['slug']}.html" for post in posts} | {"index.html"}
+    for fname in os.listdir(OUT_DIR):
+        if fname.endswith(".html") and fname not in current_files:
+            stale_path = os.path.join(OUT_DIR, fname)
+            os.remove(stale_path)
+            print("removed stale page", stale_path)
+
     # Index / listing page
     if posts:
         cards = []
