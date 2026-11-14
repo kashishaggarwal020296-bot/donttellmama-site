@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline Test Post — Don&#x27;t Tell Mama</title>
+<meta name="description" content="Internal test post to verify the self-service publishing pipeline end to end.">
+<link rel="canonical" href="https://donttellmama.in/blog/test-pipeline-post.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Ccircle cx='60' cy='60' r='58' fill='%23153c36'/%3E%3Ccircle cx='60' cy='60' r='46' fill='none' stroke='%23d7a223' stroke-width='2'/%3E%3Ctext x='60' y='72' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='34' font-weight='700' fill='%23ddd0c7'%3EDTM%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Don't Tell Mama">
+<meta property="og:title" content="Pipeline Test Post — Don&#x27;t Tell Mama">
+<meta property="og:description" content="Internal test post to verify the self-service publishing pipeline end to end.">
+<meta property="og:url" content="https://donttellmama.in/blog/test-pipeline-post.html">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/02767cd9-1f9e-4e61-85c3-e85dcb33d132.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/0c4bd035-2ccd-436d-b95c-001a58b6bdb6.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/3ed0e826-ea59-422e-b8f6-7957708f1990.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/2b872abc-4939-4336-a197-7ae86fc996f6.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/47142e5e-f9f8-4f67-9d31-5c43a9d1c78e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/02767cd9-1f9e-4e61-85c3-e85dcb33d132.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/0c4bd035-2ccd-436d-b95c-001a58b6bdb6.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/3ed0e826-ea59-422e-b8f6-7957708f1990.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/2b872abc-4939-4336-a197-7ae86fc996f6.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/47142e5e-f9f8-4f67-9d31-5c43a9d1c78e.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/22986b9f-b61c-4c62-8b1e-324463113055.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/009c05c4-5e80-4390-9b6b-fb465e86614d.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/87285f15-bd92-43ee-9350-41cbe5fce403.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/5889f709-c8b7-4812-81da-9b63de2d9bf4.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/20216d16-d94d-4953-b407-7957547e31e8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/22986b9f-b61c-4c62-8b1e-324463113055.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/009c05c4-5e80-4390-9b6b-fb465e86614d.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/87285f15-bd92-43ee-9350-41cbe5fce403.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/5889f709-c8b7-4812-81da-9b63de2d9bf4.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/20216d16-d94d-4953-b407-7957547e31e8.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/6c41b0d2-0f72-4cf4-a301-ad3fb311997d.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/df88e363-8412-4b22-b825-23391ba93eee.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/49c28f85-ea5d-4fc9-90d9-8515b1aed792.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/26422c16-cfd8-4d6a-a49c-5fc7e5b488e8.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/assets/295df97b-c0c1-42ac-80fa-b1dca470474f.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/6c41b0d2-0f72-4cf4-a301-ad3fb311997d.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/df88e363-8412-4b22-b825-23391ba93eee.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/49c28f85-ea5d-4fc9-90d9-8515b1aed792.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/26422c16-cfd8-4d6a-a49c-5fc7e5b488e8.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/assets/295df97b-c0c1-42ac-80fa-b1dca470474f.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/6c41b0d2-0f72-4cf4-a301-ad3fb311997d.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/df88e363-8412-4b22-b825-23391ba93eee.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/49c28f85-ea5d-4fc9-90d9-8515b1aed792.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/26422c16-cfd8-4d6a-a49c-5fc7e5b488e8.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("/assets/295df97b-c0c1-42ac-80fa-b1dca470474f.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* cyrillic-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/6c41b0d2-0f72-4cf4-a301-ad3fb311997d.woff2") format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+/* cyrillic */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/df88e363-8412-4b22-b825-23391ba93eee.woff2") format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/49c28f85-ea5d-4fc9-90d9-8515b1aed792.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/26422c16-cfd8-4d6a-a49c-5fc7e5b488e8.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/assets/295df97b-c0c1-42ac-80fa-b1dca470474f.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+
+<style>
+  :root{
+    --green:#153c36;--green-deep:#0e2b27;--green-ink:#091d1a;
+    --gold:#d7a223;--gold-soft:#b98a2c;--cream:#ddd0c7;--cream-dim:#a99f95;--olive:#394229;
+    --serif:"Cormorant Garamond", Georgia, serif;--sans:"Montserrat", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--green);color:var(--cream);font-family:var(--sans);font-weight:300;
+    -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;}
+  ::selection{background:var(--gold);color:var(--green-ink);}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  .eyebrow{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);}
+
+  :root{
+    --green:#153c36;--green-deep:#0e2b27;--green-ink:#091d1a;
+    --gold:#d7a223;--gold-soft:#b98a2c;--cream:#ddd0c7;--cream-dim:#a99f95;--olive:#394229;
+    --serif:"Cormorant Garamond", Georgia, serif;--sans:"Montserrat", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--green);color:var(--cream);font-family:var(--sans);font-weight:300;
+    -webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden;}
+  ::selection{background:var(--gold);color:var(--green-ink);}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+  .eyebrow{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);}
+
+  /* ---- HEADER ---- */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,border-color .4s,padding .4s;border-bottom:1px solid transparent;}
+  header.scrolled{background:rgba(9,29,26,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(215,162,35,.18);}
+  .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1300px;margin:0 auto;padding:18px 40px;transition:padding .4s;}
+  header.scrolled .bar{padding:13px 40px;}
+  .wordmark{display:flex;align-items:center;gap:10px;line-height:1;}
+  .wordmark img{height:46px;width:auto;display:block;}
+  .wordmark .script{font-family:var(--serif);font-style:italic;font-weight:500;font-size:24px;color:var(--cream);}
+  .wordmark .block{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.32em;color:var(--green-ink);background:var(--gold);padding:5px 9px 4px;border-radius:2px;transform:translateY(-2px);}
+  nav.main{display:flex;align-items:center;gap:30px;}
+  nav.main a{font-family:var(--sans);font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);opacity:.82;transition:opacity .25s,color .25s;}
+  nav.main a:hover,nav.main a.active{opacity:1;color:var(--gold);}
+  .btn-reserve{font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--green-ink);background:var(--gold);padding:11px 18px;border-radius:2px;white-space:nowrap;transition:background .25s,transform .25s;}
+  .btn-reserve:hover{background:#e7b436;transform:translateY(-1px);}
+  .menu-toggle{display:none;background:none;border:none;color:var(--cream);cursor:pointer;padding:6px;}
+
+
+  /* ---- BLOG ---- */
+  .bloghero{position:relative;padding:168px 0 60px;text-align:center;overflow:hidden;}
+  .bloghero::before{content:"";position:absolute;inset:0;z-index:0;
+    background:radial-gradient(ellipse at 50% 0%, rgba(215,162,35,.10), transparent 60%);}
+  .bloghero-inner{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:0 32px;}
+  .bloghero .cap{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
+  .bloghero h1{font-family:var(--serif);font-weight:600;color:var(--cream);font-size:clamp(38px,6vw,60px);line-height:1.04;text-transform:uppercase;letter-spacing:.01em;}
+  .bloghero .sub{font-family:var(--serif);font-style:italic;font-size:clamp(17px,2vw,21px);color:var(--cream);opacity:.88;margin-top:18px;}
+
+  .blog-list{padding:10px 0 110px;}
+  .blog-grid{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:0;}
+  .blog-card{display:block;border-bottom:1px solid rgba(215,162,35,.16);padding:34px 4px;}
+  .blog-card:first-child{border-top:1px solid rgba(215,162,35,.16);}
+  .blog-card .meta{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+  .blog-card h2{font-family:var(--serif);font-weight:600;font-size:clamp(22px,3vw,30px);color:var(--cream);margin-top:10px;line-height:1.2;}
+  .blog-card p{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--cream-dim);margin-top:10px;line-height:1.6;max-width:62ch;}
+  .blog-card .more{display:inline-block;font-family:var(--sans);font-size:11.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--cream);opacity:.8;margin-top:14px;transition:opacity .2s,color .2s;}
+  .blog-card:hover .more{opacity:1;color:var(--gold);}
+  .blog-empty{text-align:center;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--cream-dim);padding:40px 0;}
+
+  .blogpost-hero{padding:150px 0 10px;text-align:center;}
+  .blogpost-hero .wrap{max-width:760px;}
+  .blogpost-hero .back{display:inline-block;font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cream-dim);margin-bottom:28px;transition:color .2s;}
+  .blogpost-hero .back:hover{color:var(--gold);}
+  .blogpost-hero .meta{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);}
+  .blogpost-hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.6vw,48px);color:var(--cream);line-height:1.1;margin-top:16px;text-wrap:balance;}
+
+  .blogpost-body{max-width:680px;margin:0 auto;padding:50px 0 60px;}
+  .blogpost-body p{font-family:var(--sans);font-size:16px;font-weight:300;color:var(--cream);opacity:.92;line-height:1.8;margin-bottom:22px;}
+  .blogpost-body h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.2vw,32px);color:var(--cream);margin:40px 0 18px;line-height:1.2;}
+  .blogpost-body h3{font-family:var(--serif);font-weight:600;font-size:21px;color:var(--gold-soft);margin:30px 0 14px;}
+  .blogpost-body ul{margin:0 0 22px 22px;}
+  .blogpost-body li{font-family:var(--sans);font-size:16px;font-weight:300;color:var(--cream);opacity:.92;line-height:1.8;margin-bottom:8px;}
+  .blogpost-body a{color:var(--gold);border-bottom:1px solid rgba(215,162,35,.4);}
+  .blogpost-body a:hover{color:#f0c250;}
+  .blogpost-body blockquote{border-left:2px solid var(--gold);padding-left:20px;margin:28px 0;font-family:var(--serif);font-style:italic;font-size:19px;color:var(--cream);}
+  .blogpost-foot{max-width:680px;margin:0 auto;padding:30px 0 90px;border-top:1px solid rgba(215,162,35,.16);text-align:center;}
+  .blogpost-foot a{display:inline-block;margin-top:20px;}
+
+
+  /* ---- FOOTER ---- */
+  footer{background:var(--green-ink);padding:70px 0 40px;border-top:1px solid rgba(215,162,35,.14);}
+  .foot-grid{display:grid;grid-template-columns:auto 1fr auto;gap:50px;align-items:center;}
+  .badge-seal{width:96px;height:96px;flex:0 0 auto;object-fit:contain;}
+  .foot-mid{text-align:center;}
+  .foot-mid .ig{font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+  .foot-mid .meta{font-family:var(--sans);font-size:12px;color:var(--cream-dim);margin-top:12px;line-height:1.9;letter-spacing:.04em;}
+  .foot-right{text-align:right;}
+  .foot-right a{font-family:var(--sans);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);opacity:.8;}
+  .foot-right a:hover{color:var(--gold);opacity:1;}
+  .foot-quiet{text-align:center;margin-top:44px;padding-top:24px;border-top:1px solid rgba(215,162,35,.1);font-family:var(--serif);font-style:italic;font-size:15px;color:var(--cream-dim);opacity:.8;}
+  .mobar{display:none;}
+
+  .grain{position:fixed;inset:0;z-index:9;pointer-events:none;opacity:.05;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.3,1);}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none;}}
+
+  @media (max-width:960px){
+    .foot-grid{grid-template-columns:1fr;text-align:center;gap:30px;justify-items:center;}
+    .foot-right{text-align:center;}
+
+
+  }
+  @media (max-width:1000px){
+    nav.main{display:none;position:absolute;top:100%;left:0;right:0;min-height:100vh;flex-direction:column;gap:0;
+      background:rgba(9,29,26,.98);backdrop-filter:blur(14px);border-bottom:1px solid rgba(215,162,35,.2);overflow-y:auto;}
+    nav.main.open{display:flex;}
+    nav.main a{padding:18px 24px;width:100%;border-top:1px solid rgba(215,162,35,.1);opacity:1;min-height:44px;box-sizing:border-box;display:flex;align-items:center;}
+    .menu-toggle{display:flex;align-items:center;justify-content:center;order:-1;position:relative;z-index:2;min-width:44px;min-height:44px;}
+    .bar{padding:14px 20px;gap:12px;}
+    .wordmark .script{font-size:20px;}
+    .wordmark .block{font-size:11px;letter-spacing:.24em;}
+    .btn-reserve{font-size:11px;padding:12px 13px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;}
+    .wrap{padding:0 22px;}
+    /* sticky bottom action bar: Enquire | Call | Directions */
+    body{padding-bottom:56px;}
+    .mobar{display:grid;grid-template-columns:1.2fr 1fr 1fr;position:fixed;left:0;right:0;bottom:0;z-index:120;
+      background:rgba(9,29,26,.97);backdrop-filter:blur(12px);border-top:1px solid rgba(215,162,35,.24);}
+    .mobar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-height:56px;padding:9px 6px;
+      font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);}
+    .mobar a+a{border-left:1px solid rgba(215,162,35,.18);}
+    .mobar a svg{width:19px;height:19px;stroke:var(--gold);fill:none;stroke-width:1.6;}
+    .mobar a.primary{background:var(--gold);color:var(--green-ink);}
+    .mobar a.primary svg{stroke:var(--green-ink);}
+    .mobar a svg.wa-icon{fill:var(--gold);stroke:none;}
+    .mobar a.primary svg.wa-icon{fill:var(--green-ink);}
+
+    .bloghero{padding:130px 0 40px;}
+    .blogpost-hero{padding:120px 0 10px;}
+
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<header id="hdr">
+  <div class="bar">
+    <a class="wordmark" href="/" aria-label="Don't Tell Mama home">
+      <img src="/assets/1610125e-f77b-48c0-ac10-de1e5065db7d.png" alt="Don't Tell Mama">
+    </a>
+    <nav class="main" id="mainNav">
+      <a href="/#week">The Week</a>
+      <a href="/food-menu.html">Menu</a>
+      <a href="/#gallery">Gallery</a>
+      <a href="/the-commons.html">The Commons</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/#find">Find Us</a>
+    </nav>
+    <a class="btn-reserve" data-reserve="" data-rkey="hero" data-ga="reserve_click" data-section="blog-header" href="#">Reserve a Table</a>
+    <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false" id="menuToggle">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
+  </div>
+</header>
+
+
+<section class="blogpost-hero">
+  <div class="wrap">
+    <a class="back" href="/blog/">← All Stories</a>
+    <div class="meta">November 14, 2026</div>
+    <h1>Pipeline Test Post</h1>
+  </div>
+</section>
+<article class="blogpost-body wrap">
+<p>This is a throwaway post used only to verify that the GitHub Action can build and push a new post automatically. It will be deleted right after the test confirms the pipeline works.</p>
+</article>
+<div class="blogpost-foot wrap">
+  <a class="btn-gold-lg" href="/blog/">← Back to All Stories</a>
+</div>
+
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <img class="badge-seal" src="/assets/207fc229-207c-481e-bdb9-00f19ec4561c.png" alt="Don't Tell Mama circular badge">
+      <div class="foot-mid">
+        <a class="ig" href="https://instagram.com/donttellmama_hsr" target="_blank" rel="noopener">@DONTTELLMAMA_HSR</a>
+        <div class="meta">
+          13th Cross Rd, below The Elite Royale, Sector 6,<br>
+          HSR Layout, Bengaluru, Karnataka 560034<br>
+          Open daily · 12 PM – 1 AM<br>
+          +91 91642 00024
+        </div>
+      </div>
+      <div class="foot-right">
+        <a href="/">← Back to Mama's</a>
+      </div>
+    </div>
+    <p class="foot-quiet">What happens on the rooftop stays on the rooftop. Mostly.</p>
+  </div>
+</footer>
+
+<nav class="mobar" aria-label="Quick actions">
+  <a class="primary" data-reserve="" data-rkey="hero" data-ga="reserve_click" data-section="mobar" href="#">
+    <svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"></path></svg>Reserve</a>
+  <a data-call="" data-ga="call_click" data-section="mobar" href="tel:+919164200024">
+    <svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L17 13l2 5v1a1 1 0 0 1-1 1A15 15 0 0 1 4 6a1 1 0 0 1 1-2z"></path></svg>Call</a>
+  <a data-maps="" data-ga="directions_click" data-section="mobar" href="#" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24"><path d="M12 21s-7-6.3-7-11a7 7 0 0 1 14 0c0 4.7-7 11-7 11z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>Directions</a>
+</nav>
+
+<script src="/assets/6ed898ba-0946-4a08-b0df-e58baeaaee6f.js"></script>
+
+<!-- GA4 — Measurement ID lives in CONFIG.GA4_ID (single source, loaded below). -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+</script>
+<script>
+(function(){
+  /* ============================================================
+     CENTRAL CONFIG — mirrors the homepage single source of truth.
+     ============================================================ */
+  var CONFIG = {
+    WHATSAPP_NUMBER: "919164200024",
+    PHONE_NUMBER: "+919164200024",
+    LUCID_URL: "",
+    PRIMARY_RESERVE_URL: "",
+    MENU_URL: "/food-menu.html",
+    INSTAGRAM_URL: "https://instagram.com/donttellmama_hsr",
+    GOOGLE_MAPS_URL: "https://www.google.com/maps/search/?api=1&query=Don%27t%20Tell%20Mama%2C%2013th%20Cross%20Rd%2C%20HSR%20Layout%2C%20Bengaluru%20560034",
+    THURSDAY_LIVE: false,
+    COMMONS_PASS_MODE: "waitlist",
+    ESTABLISHED_YEAR: 2010,
+    GA4_ID: "G-7BYJ7PRKPM",
+    /* Apps Script Web App /exec URL — deploy apps-script/CommonsEnquiries.gs
+       against the Guest Master CRM sheet and paste its URL here. Left blank,
+       the form always reports failure (with the WhatsApp fallback) rather
+       than lying about a submission it never made. */
+    COMMONS_FORM_ENDPOINT: "https://script.google.com/macros/s/AKfycbymQRwdoWf-ORh5GqLSHTAeYet5mKUqmedi7SFDSa1i_6_KggbZYR1u4vHMXPwn76KhAg/exec"
+  };
+  if(CONFIG.GA4_ID && !/X{4,}/.test(CONFIG.GA4_ID)){
+    var _ga=document.createElement("script"); _ga.async=true;
+    _ga.src="https://www.googletagmanager.com/gtag/js?id="+CONFIG.GA4_ID;
+    document.head.appendChild(_ga);
+    gtag("js", new Date()); gtag("config", CONFIG.GA4_ID);
+  }
+  var RESERVE_MODE = CONFIG.PRIMARY_RESERVE_URL ? "custom" : (CONFIG.LUCID_URL ? "lucid" : "whatsapp");
+  var PREFILLS = {
+    hero: "Hi Mama, I'd like to reserve a table.\nDate: \nTime: \nNumber of guests: \nOccasion: "
+  };
+  /* WhatsApp links avoid api.whatsapp.com (wa.me redirects there and it's the
+     domain ad-blockers kill with ERR_BLOCKED_BY_RESPONSE). Static href points at
+     web.whatsapp.com; the click handler upgrades to the native whatsapp:// app
+     scheme first, which touches no web domain and can't be blocked. */
+  var IS_MOBILE = /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent || "");
+  function waHref(msg){
+    var t = encodeURIComponent(msg || PREFILLS.hero);
+    /* MOBILE: plain wa.me (no JS) opens the app on one tap. DESKTOP:
+       web.whatsapp.com + the app-first handler below — never api.whatsapp.com. */
+    return IS_MOBILE
+      ? "https://wa.me/" + CONFIG.WHATSAPP_NUMBER + "?text=" + t
+      : "https://web.whatsapp.com/send?phone=" + CONFIG.WHATSAPP_NUMBER + "&text=" + t;
+  }
+  document.addEventListener("click", function(e){
+    if(IS_MOBILE) return;
+    var a = e.target.closest && e.target.closest('a[href^="https://web.whatsapp.com/send"]');
+    if(!a) return;
+    e.preventDefault();
+    var u; try{ u = new URL(a.href); }catch(_){ window.open(a.href,"_blank","noopener"); return; }
+    var phone = u.searchParams.get("phone") || CONFIG.WHATSAPP_NUMBER;
+    var text  = u.searchParams.get("text") || "";
+    var appUrl = "whatsapp://send?phone=" + phone + "&text=" + encodeURIComponent(text);
+    var webUrl = a.href;
+    var fb = setTimeout(function(){ if(!document.hidden){ window.open(webUrl, "_blank", "noopener"); } }, 1200);
+    var vis = function(){ if(document.hidden){ clearTimeout(fb); document.removeEventListener("visibilitychange", vis); } };
+    document.addEventListener("visibilitychange", vis);
+    window.location.href = appUrl;
+  }, true);
+  function reserveHref(el){
+    if(RESERVE_MODE === "custom") return CONFIG.PRIMARY_RESERVE_URL;
+    if(RESERVE_MODE === "lucid")  return CONFIG.LUCID_URL;
+    var key = el.getAttribute("data-rkey");
+    return waHref(key ? PREFILLS[key] : el.getAttribute("data-msg"));
+  }
+
+  document.querySelectorAll("[data-reserve]").forEach(function(el){
+    el.setAttribute("href", reserveHref(el));
+    if(RESERVE_MODE === "whatsapp"){ el.setAttribute("target","_blank"); el.setAttribute("rel","noopener"); }
+  });
+  document.querySelectorAll("[data-wa]").forEach(function(el){
+    el.setAttribute("href", waHref(el.getAttribute("data-msg")));
+    el.setAttribute("target","_blank"); el.setAttribute("rel","noopener");
+  });
+  document.querySelectorAll("[data-maps]").forEach(function(el){ el.setAttribute("href", CONFIG.GOOGLE_MAPS_URL); });
+  document.querySelectorAll("[data-call]").forEach(function(el){ el.setAttribute("href", "tel:" + CONFIG.PHONE_NUMBER); });
+
+  /* Named GA4 events (tagged with section) */
+  function track(name, params){ if(typeof gtag === "function"){ gtag("event", name, params || {}); } }
+  document.querySelectorAll("[data-ga]").forEach(function(el){
+    el.addEventListener("click", function(){
+      var name = el.getAttribute("data-ga");
+      var params = { section: el.getAttribute("data-section") || "commons", label: (el.textContent||"").trim().replace(/\s+/g," ") };
+      track(name, params);
+      if(name === "reserve_click" && RESERVE_MODE === "whatsapp"){ track("whatsapp_reserve_click", params); }
+    });
+  });
+
+  /* header scroll */
+  var hdr = document.getElementById("hdr");
+  var onScroll = function(){ hdr.classList.toggle("scrolled", window.scrollY > 40); };
+  onScroll(); window.addEventListener("scroll", onScroll, {passive:true});
+
+  /* mobile nav */
+  var toggle = document.getElementById("menuToggle"), nav = document.getElementById("mainNav");
+  if(toggle && nav){
+    toggle.addEventListener("click", function(){ var o=nav.classList.toggle("open"); toggle.setAttribute("aria-expanded", o?"true":"false"); });
+    nav.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ nav.classList.remove("open"); }); });
+  }
+
+  /* reveal */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+  }, {threshold:.12, rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".reveal:not(.in)").forEach(function(el){ io.observe(el); });
+
+  /* ============================================================
+     ENQUIRY FORM — validation, honeypot, loading/success/failure.
+     Posts directly to the Apps Script Web App (CONFIG.COMMONS_FORM_ENDPOINT).
+     Success is only ever shown after a real {ok:true} JSON response —
+     network errors, non-200s, and {ok:false} all fall through to fail().
+     ============================================================ */
+  var form = document.getElementById("commonsForm"), note = document.getElementById("formNote"),
+      submitBtn = document.getElementById("commonsSubmit"), hp = document.getElementById("hp-field");
+  var dateEl = document.getElementById("f-date");
+  if(dateEl){ dateEl.min = new Date().toISOString().split("T")[0]; }
+
+  var started = false;
+  if(form){
+    form.addEventListener("input", function(){ if(!started){ started = true; track("commons_enquiry_started", {section:"commons-form"}); } }, {once:false});
+  }
+
+  function markInvalid(el, bad){ if(el){ el.closest(".field").classList.toggle("invalid", !!bad); } }
+  function isIndianPhone(v){ return /^(?:\+?91[\s-]?)?[6-9]\d{9}$/.test((v||"").replace(/[\s-]/g,"")); }
+
+  function validate(){
+    var ok = true, firstBad = null;
+    var req = ["f-type","f-venue","f-name","f-phone","f-date","f-time","f-size"];
+    req.forEach(function(id){
+      var el = document.getElementById(id); if(!el) return;
+      var bad = !el.value;
+      if(id === "f-phone" && el.value && !isIndianPhone(el.value)) bad = true;
+      if(id === "f-date" && el.value && el.value < dateEl.min) bad = true;
+      if(id === "f-size" && el.value && (+el.value < 1 || +el.value > 150)) bad = true;
+      markInvalid(el, bad); if(bad){ ok = false; if(!firstBad) firstBad = el; }
+    });
+    if(firstBad){ firstBad.focus(); }
+    return ok;
+  }
+
+  function fail(){
+    var msg = "Hi Mama, I'd like to enquire about The Commons at Mama's for a private event.";
+    note.className = "form-note fail";
+    note.innerHTML = "<b>That didn't go through.</b> Please try again, or <a style='color:var(--gold);border-bottom:1px solid rgba(215,162,35,.5)' target='_blank' rel='noopener' href='" + waHref(msg) + "'>message us on WhatsApp →</a>";
+    if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = "Send Enquiry <span>→</span>"; }
+  }
+
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      if(hp && hp.value){ return; } /* honeypot: silently drop bots */
+      if(!validate()){
+        note.className = "form-note fail";
+        note.textContent = "Please check the highlighted fields — we need a valid Indian phone number and a future date.";
+        return;
+      }
+      if(!CONFIG.COMMONS_FORM_ENDPOINT){ fail(); return; } /* no backend configured — never fake success */
+
+      if(submitBtn){ submitBtn.disabled = true; submitBtn.innerHTML = "Sending…"; }
+      note.className = "form-note"; note.textContent = "Sending your enquiry…";
+
+      var payload = {
+        eventType: document.getElementById("f-type").value,
+        venue: document.getElementById("f-venue").value,
+        name: document.getElementById("f-name").value,
+        phone: document.getElementById("f-phone").value,
+        date: document.getElementById("f-date").value,
+        time: document.getElementById("f-time").value,
+        headcount: document.getElementById("f-size").value,
+        hp: hp ? hp.value : ""
+      };
+
+      var controller = (typeof AbortController !== "undefined") ? new AbortController() : null;
+      var timeoutId = controller ? setTimeout(function(){ controller.abort(); }, 12000) : null;
+
+      fetch(CONFIG.COMMONS_FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" }, /* avoids a CORS preflight the endpoint can't answer */
+        body: JSON.stringify(payload),
+        signal: controller ? controller.signal : undefined
+      }).then(function(res){
+        if(timeoutId) clearTimeout(timeoutId);
+        if(!res.ok) throw new Error("HTTP " + res.status);
+        return res.json();
+      }).then(function(result){
+        if(!result || result.ok !== true) throw new Error((result && result.error) || "Submission rejected");
+        track("commons_enquiry_submitted", {section:"commons-form"});
+        form.reset(); if(submitBtn){ submitBtn.disabled = false; submitBtn.innerHTML = "Send Enquiry <span>→</span>"; }
+        note.className = "form-note ok";
+        note.innerHTML = "<b>Mama has your enquiry.</b> Our team will contact you shortly.";
+      }).catch(function(){
+        if(timeoutId) clearTimeout(timeoutId);
+        fail();
+      });
+    });
+  }
+})();
+</script>
+</body></html>
