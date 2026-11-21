@@ -414,6 +414,12 @@
   .bar{display:flex;align-items:center;justify-content:space-between;gap:24px;max-width:1300px;margin:0 auto;padding:18px 40px;transition:padding .4s;}
   header.scrolled .bar{padding:13px 40px;}
   .wordmark{display:flex;align-items:center;gap:10px;line-height:1;}
+  .brand-group{display:flex;flex-direction:column;gap:3px;}
+  .loc-switch{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-left:1px;}
+  .loc-switch a{color:var(--cream);opacity:.62;transition:opacity .2s,color .2s;}
+  .loc-switch a.active{opacity:1;color:var(--gold);}
+  .loc-switch a:hover{opacity:1;}
+  .loc-switch .sep{color:var(--cream-dim);opacity:.5;}
   .wordmark img{height:46px;width:auto;display:block;}
   .wordmark .script{font-family:var(--serif);font-style:italic;font-weight:500;font-size:24px;color:var(--cream);}
   .wordmark .block{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.32em;color:var(--green-ink);background:var(--gold);padding:5px 9px 4px;border-radius:2px;transform:translateY(-2px);}
@@ -459,6 +465,7 @@
     .bar{padding:14px 20px;gap:12px;}
     .wordmark .script{font-size:20px;}
     .wordmark .block{font-size:11px;letter-spacing:.24em;}
+    .loc-switch{font-size:9.5px;}
     .btn-reserve{font-size:11px;padding:12px 13px;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;}
     .wrap{padding:0 22px;}
     /* sticky bottom action bar: Enquire | Call | Directions */
@@ -483,9 +490,14 @@
 
 <header id="hdr">
   <div class="bar">
-    <a class="wordmark" href="/" aria-label="Don't Tell Mama home">
-      <img src="/assets/1610125e-f77b-48c0-ac10-de1e5065db7d.png" alt="Don't Tell Mama">
-    </a>
+    <div class="brand-group">
+      <a class="wordmark" href="/" aria-label="Don't Tell Mama home">
+        <img src="/assets/1610125e-f77b-48c0-ac10-de1e5065db7d.png" alt="Don't Tell Mama">
+      </a>
+      <div class="loc-switch">
+        <a href="/" class="active">HSR Layout</a><span class="sep">/</span><a href="/koramangala.html">Koramangala</a>
+      </div>
+    </div>
     <nav class="main" id="mainNav">
       <a href="/#week">The Week</a>
       <a href="/food-menu.html">Menu</a>

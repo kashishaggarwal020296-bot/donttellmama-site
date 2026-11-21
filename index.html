@@ -505,6 +505,12 @@
     max-width:1300px;margin:0 auto;padding:20px 40px;transition:padding .4s ease;}
   header.scrolled .bar{padding:14px 40px;}
   .wordmark{position:relative;display:flex;align-items:center;gap:10px;line-height:1;}
+  .brand-group{display:flex;flex-direction:column;gap:3px;}
+  .loc-switch{display:flex;align-items:center;gap:6px;font-family:var(--sans);font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding-left:1px;}
+  .loc-switch a{color:var(--cream);opacity:.62;transition:opacity .2s,color .2s;}
+  .loc-switch a.active{opacity:1;color:var(--gold);}
+  .loc-switch a:hover{opacity:1;}
+  .loc-switch .sep{color:var(--cream-dim);opacity:.5;}
   .wordmark img{height:59px;width:auto;display:block;transition:height .4s ease;}
   header.scrolled .wordmark img{height:49px;}
   .wordmark .script{font-family:var(--serif);font-style:italic;font-weight:500;font-size:26px;
@@ -860,6 +866,7 @@
     .bar{padding:15px 20px;gap:12px;}
     .wordmark .script{font-size:21px;}
     .wordmark .block{font-size:12px;letter-spacing:.24em;padding:4px 8px 3px;}
+    .loc-switch{font-size:9.5px;}
     .btn-reserve{font-size:11px;padding:12px 14px;letter-spacing:.12em;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center;}
     .find-grid{grid-template-columns:1fr;gap:34px;}
     .gal-grid{grid-template-columns:1fr;grid-auto-flow:column;grid-auto-columns:78%;grid-template-rows:220px;grid-auto-rows:220px;
@@ -916,6 +923,7 @@
     .bar{padding:12px 14px;gap:8px;}
     .wordmark img{height:45px;}
     header.scrolled .wordmark img{height:40px;}
+    .loc-switch{font-size:8.5px;gap:4px;}
     .btn-reserve{font-size:10.5px;padding:8px 12px;letter-spacing:.1em;}
     .wrap{padding:0 16px;}
     .hero-inner{padding:0 20px;}
@@ -929,9 +937,14 @@
 <!-- ================= HEADER ================= -->
 <header id="hdr">
   <div class="bar">
-    <a class="wordmark" href="#top" aria-label="Don't Tell Mama home">
-      <img src="/assets/1610125e-f77b-48c0-ac10-de1e5065db7d.png" alt="Don't Tell Mama">
-    </a>
+    <div class="brand-group">
+      <a class="wordmark" href="#top" aria-label="Don't Tell Mama home">
+        <img src="/assets/1610125e-f77b-48c0-ac10-de1e5065db7d.png" alt="Don't Tell Mama">
+      </a>
+      <div class="loc-switch">
+        <a href="/" class="active">HSR Layout</a><span class="sep">/</span><a href="/koramangala.html">Koramangala</a>
+      </div>
+    </div>
     <div class="nav-wrap">
       <nav class="main" id="mainNav">
         <a href="#week">The Week</a>
